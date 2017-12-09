@@ -18,7 +18,7 @@ import vedio from '../components/Home/Vedio/vedio.vue';
 
 import newsDetail from '../components/Home/News/detail.vue';
 
-
+import shareDetail from '../components/Home/Share/detail.vue';
 
 //2.创建路由对象
 let router = new VueRouter({
@@ -37,7 +37,9 @@ let router = new VueRouter({
         {path:'/feedback',component:feedback},
         {path:'/share',component:share},
         {path:'/vedio',component:vedio},
-        {name:'newsDetail',path:'/news/:id',component:newsDetail,props: true}
+        {name:'newsDetail',path:'/news/:id',component:newsDetail,props: true},
+        {name:'shareDetail', path:'/share/:id',component:shareDetail,props:true}
+
     ]
 });
 
