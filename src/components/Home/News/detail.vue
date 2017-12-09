@@ -16,8 +16,8 @@
         <h4>提交评论</h4>
 
         <div class="submitcomment">
-            <textarea placeholder="请输入评论内容"></textarea>
-            <button class="mui-btn mui-btn-primary">发表</button>
+            <textarea v-model="content" placeholder="请输入评论内容"></textarea>
+            <button @click="send" class="mui-btn mui-btn-primary">发表</button>
         </div>
             
         <div class="title">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="more">
-            <button class="mui-btn mui-btn-primary mui-btn-outlined">加载更多</button>
+            <button @click="loadmore" class="mui-btn mui-btn-primary mui-btn-outlined">加载更多</button>
         </div>
 
     </div>
@@ -50,11 +50,16 @@
 
 <script>
 import '../../../../statics/css/style.css';
+import 'mint-ui/lib/style.css';
+import {Toast}  from 'mint-ui';
+
 export default {
   data(){
       return{
        news:{},
-       comments:[]
+       comments:[],
+       content:'',
+       pageindex:1
       }
   },
   props: ['id'],
@@ -63,6 +68,7 @@ export default {
       this.getcomments();
   },
   methods:{
+      //获取列表
       getdetail(){
           this.$http
           .get('getnew/'+this.id)
@@ -75,12 +81,13 @@ export default {
               }
           })
       },
+      //获取内容
       getcomments(){
           let url = 'getcomments/' +this.id+ '?pageindex=1';
           this.$http
           .get(url)
           .then((res)=>{
-              if(res.status ===200 && res.data.stautus ===0){
+              if(res.status ===200 && res.data.status ===0){
                   this.comments = res.data.message;
               }else{
                   console.log('服务器出错');
@@ -89,8 +96,37 @@ export default {
           .catch((err)=>{
               console.error(err);
           })
+      },
+      //发表评论
+      send(){
+          if(this.content.length === 0){
+            Toast('请输入内容');
+            return;
+          }
+          let url = 'postcomment/'+this.id;
+          this.axios
+          .post(url,'content='+this.content)
+          .then((res)=>{
+              if(res.status === 200 && res.data.status ===0){
+                 this.comments.unshift({
+                     user_name:'匿名用户',
+                     add_time:new Date(),
+                     content:this.content
+                 })
+                 this.content = "";
+              }else{
+                
+              }
+              Toast(res.data.message);
+          })
+          .catch((err)=>{
+              console.error(err);
+          })
+      },
+      loadmore(){
+          this.pageindex++;
+          this.getcomments();
       }
-
   }
 }
 </script>

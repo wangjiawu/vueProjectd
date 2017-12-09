@@ -20,7 +20,6 @@ import newsDetail from './components/Home/News/detail.vue';
 //加载组件模块
 import app from './app.vue';
 import '../statics/css/mui.css';
-
 //引用时间插件
 import moment from 'moment';
 //过滤器，格式化日期
@@ -33,8 +32,10 @@ Vue.use(VueRouter);
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8899/api';
-
 Vue.prototype.$http = axios;
+Vue.prototype.axios = axios;
+
+
 
 //2.创建路由对象
 let router = new VueRouter({
@@ -54,9 +55,6 @@ let router = new VueRouter({
         {path:'/share',component:share},
         {path:'/vedio',component:vedio},
         {name:'newsDetail',path:'/news/:id',component:newsDetail,props: true}
-
-
-
     ]
 });
 
