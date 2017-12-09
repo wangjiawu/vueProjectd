@@ -1,12 +1,7 @@
 <template>
   <div class="mui-content">
       <!-- 轮播图 -->
-      <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="(item,index) in images" :key="index">
-            <a :href="item.url">
-                <img :src="item.img" alt="">
-            </a>
-        </mt-swipe-item>
+        <myswipe :imgUrl = "img_url"></myswipe>
        <!-- <mt-swipe-item>
             <a href="#">
                 <img src="../../../statics/images/shuijiao.jpg" alt="">
@@ -17,7 +12,7 @@
                 <img src="../../../statics/images/yuantiao.jpg" alt="">
             </a>
         </mt-swipe-item> -->
-      </mt-swipe> 
+      <!-- </mt-swipe>  -->
       <!-- 九宫格 -->
       <ul class="mui-table-view mui-grid-view mui-grid-9">
             <li v-for="item in menus " :key = "item.url" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -64,36 +59,23 @@
    import Vue from 'vue';
    import 'mint-ui/lib/swipe/style.css';
    import { Swipe, SwipeItem } from 'mint-ui';
-
    Vue.component(Swipe.name, Swipe);
-   Vue.component(SwipeItem.name, SwipeItem);   
+   Vue.component(SwipeItem.name, SwipeItem);  
+   import  myswipe from '../conment/swipe.vue'
    export default {
        data(){
            return{
-            images:[],
-            menus:[]
+            menus:[],
+            img_url:'getlunbo'
            }
        },
        created(){
-         this.getlunbo();
          this.getmenus();
        },
-       methods:{
-           //获取轮播图数据
-           getlunbo(){
-               this.$http
-               .get('getlunbo')
-               .then((res)=>{
-                   if(res.status===200 && res.data.status===0){
-                       this.images = res.data.message;
-                   }else{
-                       console.log('服务器出错');
-                   }
-               })
-               .catch((err)=>{
-                  console.error(err);
-               })
-           },
+       components:{
+        myswipe
+       },
+       methods:{  
            //获取九宫格数据
            getmenus(){
                this.$http
@@ -114,13 +96,6 @@
 </script>
 
 <style scoped>
-.mint-swipe {
-    height: 250px;
-}
-.mint-swipe img {
-    height: 100%;
-    width:  100%;
-}
 .mui-table-view{
     background-color: #fff;
 }
