@@ -1,7 +1,7 @@
 <template>
  <div class="container">
      <header class="mui-bar mui-bar-nav">
-      <a class="mui-icon  mui-icon-back mui-pull-left"></a>
+      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
       <h1 class="mui-title">dev模板</h1>
     </header>
     <nav class="mui-bar mui-bar-tab">

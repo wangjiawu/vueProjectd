@@ -42,6 +42,7 @@ export default {
     this.getimages(-1);
    },
    methods:{
+       //获取导航列表
        getmenus(){
         this.axios
             .get('getimgcategory')
@@ -58,6 +59,7 @@ export default {
                 console.error(err);
             })
        },
+       //获取图片
        getimages(id){
         let url = 'getimages/'+id;
         this.axios

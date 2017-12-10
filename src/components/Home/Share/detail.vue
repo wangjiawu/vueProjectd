@@ -86,6 +86,9 @@ export default {
     
     .title h4 {
         color: dodgerblue;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     
     .title span {
