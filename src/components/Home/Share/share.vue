@@ -108,7 +108,11 @@ export default {
       margin-top: 10px;
   }
   
-  .images>ul {}
+  .images>ul {
+    overflow: hidden;
+   white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   
   .images img {
       height: 300px;

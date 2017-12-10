@@ -20,6 +20,7 @@ import newsDetail from '../components/Home/News/detail.vue';
 
 import shareDetail from '../components/Home/Share/detail.vue';
 
+
 //2.创建路由对象
 let router = new VueRouter({
     linkActiveClass:'mui-active',
@@ -38,8 +39,8 @@ let router = new VueRouter({
         {path:'/share',component:share},
         {path:'/vedio',component:vedio},
         {name:'newsDetail',path:'/news/:id',component:newsDetail,props: true},
-        {name:'shareDetail', path:'/share/:id',component:shareDetail,props:true}
-
+        {name:'shareDetail', path:'/share/:id',component:shareDetail,props:true},
+        
     ]
 });
 

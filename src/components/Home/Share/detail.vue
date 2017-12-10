@@ -89,7 +89,8 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-    }
+        
+   }
     
     .title span {
         font-size: 13px;
