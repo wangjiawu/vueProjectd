@@ -1,7 +1,7 @@
 <template>
  <div class="container">
      <header class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+      <a @click="goback" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
       <h1 class="mui-title">dev模板</h1>
     </header>
     <nav class="mui-bar mui-bar-tab">
@@ -31,6 +31,11 @@
         data:function(){
             return {
                 msg:'Hello Vue'
+            }
+        },
+        methods:{
+            goback(){
+                this.$router.go(-1);
             }
         }
     }
