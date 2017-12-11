@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import vueObj from './config/communication.js';
     export default{
         data:function(){
             return {
@@ -55,6 +56,10 @@
             //     this.iSshow = false;
             // }
             this.judeback(this.$route.path);
+            //当组件创建完毕后，监听vueObj的updatBagde事件
+            vueObj.$on('updateBadge',function(count){
+                console.log(count);
+            })
           
         },
        // 当路由地址变化的时候。决定后退按钮显示或者隐藏
