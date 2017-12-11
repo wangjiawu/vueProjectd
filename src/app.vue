@@ -1,7 +1,7 @@
 <template>
  <div class="container">
      <header class="mui-bar mui-bar-nav">
-      <a @click="goback" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+      <a v-if="isShow" @click="goback" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
       <h1 class="mui-title">dev模板</h1>
     </header>
     <nav class="mui-bar mui-bar-tab">
@@ -30,13 +30,47 @@
     export default{
         data:function(){
             return {
-                msg:'Hello Vue'
+               isShow:false
             }
         },
         methods:{
             goback(){
                 this.$router.go(-1);
+            },
+            judeback(path){
+            let arr = ['/home','/member','/shopcar','/search'];
+            if(arr.indexOf(path) == -1){
+             this.isShow = true;
+            }else{
+                this.isShow = false;
             }
+            }
+        },
+        //当页面刷新时候，因为路由地址没有发生变化，没有执行watch，所以要在组件创建完毕后，判断是否显示后退按钮
+        created(){
+            // let arr = ['/home','/member','/shopcar','/search'];
+            // if(arr.indexOf(this.$route.path) == -1){
+            //  this.isShow = true;
+            // }else{
+            //     this.iSshow = false;
+            // }
+            this.judeback(this.$route.path);
+          
+        },
+       // 当路由地址变化的时候。决定后退按钮显示或者隐藏
+		// $router  路由对象  
+		// $route   路由规则  当前的路由规则 path params
+        watch:{
+         '$route':function(newValue){
+            //  let arr = ['/home','/member','/shopcar','/search'];
+            //  if(arr.indexOf(newValue.path) == -1){
+            //      this.isShow = true;
+            //  }else {
+            //      this.isShow = false;
+            //  }
+            this.judeback(newValue.path);
+            
+         }
         }
     }
 </script>

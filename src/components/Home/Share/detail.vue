@@ -6,10 +6,8 @@
         </div>
 
         <ul class="mui-table-view mui-grid-view mui-grid-9">
-            <li v-for="(item,index) in images" :key="index" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
-                   <img :src="item.src" alt="">
-                </a>
+            <li v-for="(item,index) in images" :key="index" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">  
+              <img class="preview-img"  :src="item.src"  @click="$preview.open(index, images)">
             </li>
         </ul> 
 
@@ -21,8 +19,13 @@
     </div>
 </template>
 
-<script>
+ <script>
+import Vue from 'vue';
+import VuePreview from 'vue-preview';
+Vue.use(VuePreview);
 import comment from '../../conment/comment.vue';
+
+
 export default {
   data(){
       return{
@@ -60,6 +63,10 @@ export default {
       .then((res)=>{
           if(res.status === 200 && res.data.status ===0){
               this.images = res.data.message;
+              this.images.forEach(item=>{
+                  item.w=600;
+                  item.h=400;
+              })
           }else{
               console.log('服务器出错');
           }
@@ -73,7 +80,8 @@ export default {
    comment
   }
 }
-</script>
+</script> 
+
 
 
 <style scoped>
