@@ -12,20 +12,20 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //     test: /vue-preview.src.*?js$/,
-      //     loader: 'babel'
-      // },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /(node_modules|bower_components)/,
-      //   use: [{
-      //     loader: 'babel-loader',
-      //     options: {
-      //       presets: ['@babel/preset-env']
-      //     }
-      //   }]
-      // },
+      {
+          test: /vue-preview.src.*?js$/,
+          use: 'babel-loader'
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }]
+      },
       {
         test: /\.css$/,
         // 把css当做模块来处理
