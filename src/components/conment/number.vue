@@ -14,6 +14,9 @@ export default {
       count:1
       }
   },
+   created() {
+    this.count = this.num ? this.num : 1;
+  },
   methods:{
       sub(){
           if(this.count === 1){

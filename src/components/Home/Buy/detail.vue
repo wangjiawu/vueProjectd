@@ -12,7 +12,14 @@
             </div>
             <div class="num">
                 购买数量：<number @numberchange = "numberchanged" :stock="goods.stock_quantity"></number>
-                <div v-if="false" class="ball"></div>
+                <transition 
+                  v-on:before-enter="beforeEnter"
+                  v-on:enter="enter"
+                  v-on:after-enter="afterEnter"
+                  v-on:after-leave="afterLeave"
+                >
+                <div v-show="isShow" class="ball"></div>
+                </transition>
             </div>
             <div class="button">
                 <button class="mui-btn mui-btn-primary">立刻购买</button>
@@ -43,17 +50,21 @@
  import number from '../../conment/number.vue';
   //导入通信组件
   import vueObj from '../../../config/communication.js'; 
+  //导入操作本地存储的模块
+  import { setData } from '../../../config/localstorageHelp';
     //导出组件
     export default {
         components:{
         swipe,
-        number
+        number,
     },
     props:['id'],
     data() {
         return {
             imgUrl:'getthumimages/'+this.id,
-            goods:{}
+            goods:{},
+            count:1,
+            isShow:false
         }
     },
     created(){
@@ -89,18 +100,47 @@
         // 1 获取到number组件中值
         // this.count
         // 2 更新底部的badge
-        // 2.1 点击加入购物车，要把count传递到app.vue
-        vueObj.$emit('updateBadge', this.count);
-        // 2.2 更新
+        
 
+        this.isShow = true
+        // 2.2 更新
         // 3 小球动画
         // 4 保存购物车的数据到本地存储
+        setData({id:this.id,count:this.count});
+        },
+        //执行动画钩子函数
+         beforeEnter(el) {
+           el.style.transform = 'translate(0,0)';
+        },
+        enter(el, done) {
+            //小球的位置
+            let elX = el.getBoundingClientRect().left;
+            let elY = el.getBoundingClientRect().top;
+            //badge的位置
+            let badge = document.querySelector('.mui-badge');
+            let badgeX = badge.getBoundingClientRect().left;
+            let badgeY = badge.getBoundingClientRect().top;
+
+            //相减
+            let x = badgeX - elX;
+            let y = badgeY - elY;
+
+            el.style.transform=`translate(${x}px,${y}px)`;
+            done()
+        },
+        afterEnter: function (el) {
+            this.isShow = false;
+        },
+        afterLeave:function(){
+          // 2.1 点击加入购物车，要把count传递到app.vue
+        vueObj.$emit('updateBadge', this.count);
         }
      }    
     }
 </script>
 
 <style scoped>
+
     .num {
         position: relative;
     }
