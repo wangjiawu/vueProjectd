@@ -30,3 +30,15 @@ export function setData(json){
     localStorage.setItem('goodslist',JSON.stringify(data));
 }
 
+// 点击购物车的加减的时候，更新本地存储
+
+export function update(json){
+    let data = getData();
+    data.forEach((item)=>{
+        if(item.id == json.id){
+        item.count += json.num;
+        }   
+    })
+    localStorage.setItem('goodslist',JSON.stringify(data));
+}
+

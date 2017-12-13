@@ -8,10 +8,11 @@
 
 <script>
 export default {
-    props:['stock'],
+    props:['stock','num','id'],
   data(){
       return{
-      count:1
+      count:1,
+      type:''
       }
   },
    created() {
@@ -37,7 +38,7 @@ export default {
       },
       //
       notify(){
-        this.$emit('numberchange',this.count);
+        this.$emit('numberchange',{id:this.id,count:this.count,type:this.type});
       }
   }
 }
