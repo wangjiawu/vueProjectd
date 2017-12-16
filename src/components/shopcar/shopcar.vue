@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {getData} from '../../config/localstorageHelp';
+import {getData,deleteData} from '../../config/localstorageHelp';
 //导入number组件
 import number from '../conment/number.vue';
 export default {
@@ -86,6 +86,9 @@ export default {
             .catch((err)=>{
                 console.error(err);
             })
+        },
+        deleteGoods(id){
+        deleteData(id);
         },
         numberChange(obj){
         let num =obj.type ==='add' ? 1 : -1;

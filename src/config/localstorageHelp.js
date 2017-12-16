@@ -42,3 +42,15 @@ export function update(json){
     localStorage.setItem('goodslist',JSON.stringify(data));
 }
 
+//点击删除按钮，
+export function deleteData(id){
+    //查找ID
+  let data = getData();
+  //循环查找数据ID
+  let  index = data.findIndex((item)=>{
+      return item.id = id;
+  })
+  data.splice(index,1);
+  localStorage.setItem('goodslist',JSON.stringify(data));
+}
+
