@@ -12,8 +12,8 @@
 					{{item.title}}
 				</h4>
 				<span>￥{{item.sell_price}}</span>
-				<number :num="item.count"></number>
-				<a >删除</a>
+				<number @numberchange="numberChanged" :num="item.count"></number>
+				<a @click="deleteGoods(item.id)">删除</a>
 			</div>
 		</div>
 
@@ -31,9 +31,11 @@
 </template>
 
 <script>
-import {getData,deleteData} from '../../config/localstorageHelp';
+import {getData,deleteData,update} from '../../config/localstorageHelp';
 //导入number组件
 import number from '../conment/number.vue';
+//导入通信组件
+import vueObj from '../../config/communication';
 export default {
     components:{
          number
@@ -52,6 +54,9 @@ export default {
             // 当组件加载完毕
           // 1 获取本地存储中购物车的数据
             var data = getData();
+            if(data.length === 0){
+              return;
+            }
             var ids = [];
              // 2 把购物车数据中的id 拼接成 ,分割的形式
             data.forEach(item => {
@@ -87,15 +92,26 @@ export default {
                 console.error(err);
             })
         },
+        //删除商品要删除商品的id
         deleteGoods(id){
         deleteData(id);
+        let index = this.goodslist.findIndex((item)=>{
+          return item.id == id;
+        })
+        this.goodslist.splice(index,1);
+        this.values.splice(index,1);
+        vueObj.$emit('update');
         },
-        numberChange(obj){
-        let num =obj.type ==='add' ? 1 : -1;
-        update({id:obj.id,num:num});
+         numberChanged(obj) {
+          //点击number组件时候
+          //1.更新本地存储
+        let num = obj.type === 'add' ? 1 : -1;
+        update({id: obj.id,num: num});
         }
+      
     }
 }
+     
 </script>
 
 <style scoped>

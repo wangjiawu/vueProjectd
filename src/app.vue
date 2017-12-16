@@ -73,6 +73,10 @@ import {getData} from './config/localstorageHelp';
             vueObj.$on('updateBadge', (count) => {
                 this.count += count;
             })
+            //在购物车删除数据的时候
+            vueObj.$on('update',()=>{
+                this.getcount();
+            })
             // 获取本地存储中商品的个数，并更新界面
 			this.getcount();
           

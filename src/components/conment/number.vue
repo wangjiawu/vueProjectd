@@ -8,11 +8,10 @@
 
 <script>
 export default {
-    props:['stock','num','id'],
+    props:['stock','num'],
   data(){
       return{
-      count:1,
-      type:''
+      count:1
       }
   },
    created() {
@@ -25,20 +24,22 @@ export default {
              return;
           }
           this.count--;
+          // this.type='sub';
           this.notify();
       },
       add(){
           if(this.count >= this.stock){
-           this.$toast('已到库存是最大数量');
+           this.$toast('库存不足');
             return;
           }
           this.count++;
+          // this.type = 'add';
           //通知事件触发
            this.notify();
       },
       //
-      notify(){
-        this.$emit('numberchange',{id:this.id,count:this.count,type:this.type});
+       notify(){
+        this.$emit('numberchange',this.count);
       }
   }
 }
