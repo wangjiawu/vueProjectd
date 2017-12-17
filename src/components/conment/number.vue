@@ -8,10 +8,11 @@
 
 <script>
 export default {
-    props:['stock','num'],
+    props:['stock','num','id'],
   data(){
       return{
-      count:1
+      count:1,
+      type:''
       }
   },
    created() {
@@ -24,7 +25,7 @@ export default {
              return;
           }
           this.count--;
-          // this.type='sub';
+          this.type='sub';
           this.notify();
       },
       add(){
@@ -33,13 +34,13 @@ export default {
             return;
           }
           this.count++;
-          // this.type = 'add';
+          this.type = 'add';
           //通知事件触发
            this.notify();
       },
       //
        notify(){
-        this.$emit('numberchange',this.count);
+        this.$emit('numberchange',{id:this.id,count:this.count,type:this.type});
       }
   }
 }

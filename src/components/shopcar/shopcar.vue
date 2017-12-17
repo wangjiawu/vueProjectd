@@ -12,7 +12,7 @@
 					{{item.title}}
 				</h4>
 				<span>￥{{item.sell_price}}</span>
-				<number @numberchange="numberChanged" :num="item.count"></number>
+				<number @numberchange="numberChanged" :num="item.count" :id="item.id"></number>
 				<a @click="deleteGoods(item.id)">删除</a>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 		<div class="total">
 			<div class="left">
 				<h4>总计(不含运费):</h4>
-				<span>已经选择商品 1 件，共计￥2000元</span>
+				<span>已经选择商品 {{ total }} 件，共计￥{{ totalPrice }}元</span>
 			</div>
 			<div class="right">
 				<button  class="mui-btn mui-btn-danger">去结算</button>
@@ -43,13 +43,19 @@ export default {
     data(){
         return {
             values:[],
-            goodslist:[]
+            goodslist:[],
+            //总价钱：
+            totalPrice:0,
+            //总个数
+            total:0
         }
     },
     created(){
         this.getData();
+
     },
     methods:{
+
         getData(){
             // 当组件加载完毕
           // 1 获取本地存储中购物车的数据
@@ -100,18 +106,84 @@ export default {
         })
         this.goodslist.splice(index,1);
         this.values.splice(index,1);
+        
+        //更新本地存储数据
         vueObj.$emit('update');
+        let data = getData();
+          data.sort(function(item1,item2){
+                return item1.id > item2.id;
+            });
+            this.goodslist.sort(function(item1,item2){
+                return item1.id > item2.id;
+            })
+            //  console.log(data);
+            console.log(this.goodslist);
+            data.forEach((item,index)=>{
+                this.goodslist[index].count = item.count;
+            })
+        
+
         },
-         numberChanged(obj) {
+        numberChanged(obj) {
           //点击number组件时候
           //1.更新本地存储
+        //  console.log(obj)
         let num = obj.type === 'add' ? 1 : -1;
-        update({id: obj.id,num: num});
+        // console.log(obj.id,num)
+        update({id:obj.id,num: num});
+        //更新badge
+        vueObj.$emit('update');
+        let data=getData();
+        data.sort(function(item1,item2){
+                return item1.id > item2.id;
+            });
+            this.goodslist.sort(function(item1,item2){
+                return item1.id > item2.id;
+            })
+            //  console.log(data);
+            data.forEach((item,index)=>{
+                this.goodslist[index].count = item.count;
+            })
+
+          // console.log()
+          let count =0;
+          let totalPrice = 0;
+          this.values.forEach((item,index)=>{
+            if(item){
+              count += this.goodslist[index].count;
+              totalPrice += this.goodslist[index].count * this.goodslist[index].sell_price;
+            }
+          })
+          //总价钱
+          this.totalPrice = totalPrice;
+          //总个数：
+          this.total = count;
+          // return count;
+        
+      }
+
+  },
+      watch:{
+        'values':function(){
+          // console.log()
+          let count =0;
+          let totalPrice = 0;
+          this.values.forEach((item,index)=>{
+            if(item){
+              count += this.goodslist[index].count;
+              totalPrice += this.goodslist[index].count * this.goodslist[index].sell_price;
+            }
+          })
+          //总价钱
+          this.totalPrice = totalPrice;
+          //总个数：
+          this.total = count;
+          // return count;
         }
-      
-    }
-}
-     
+      }
+
+
+}    
 </script>
 
 <style scoped>
@@ -130,7 +202,7 @@ export default {
 
 .total h4 {
   font-weight: bold;
-  font-family: '微软雅黑';
+  font-family: "微软雅黑";
 }
 
 .total span {

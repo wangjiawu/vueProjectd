@@ -56,3 +56,4 @@ export function update(json){
     localStorage.setItem('goodslist',JSON.stringify(data));
 }
 
+

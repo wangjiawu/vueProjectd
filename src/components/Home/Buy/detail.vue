@@ -94,7 +94,7 @@
         },
          // number组件中的数字发生变化后会调用
         numberchanged(count){
-           this.count = count;
+           this.count = count.count;
         },
         addcart(){
         // 1 获取到number组件中值
