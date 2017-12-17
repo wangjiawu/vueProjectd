@@ -74,8 +74,6 @@ export default {
             this.goodslist.sort(function(item1,item2){
                 return item1.id > item2.id;
             })
-            //  console.log(data);
-            console.log(this.goodslist);
             data.forEach((item,index)=>{
                 this.goodslist[index].count = item.count;
             })
